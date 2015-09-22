@@ -1,5 +1,8 @@
 package hu.bp.conway.modules;
 
+import java.util.Random;
+
+
 public class Universe {
 
 	public static final String LINE_SEPARATOR = ",";
@@ -15,6 +18,12 @@ public class Universe {
 		this.n = n;
 		universe = new Liveness[n][n];
 		fill(live);
+	}
+
+	public Universe(int n, float percent) {
+		this.n = n;
+		universe = new Liveness[n][n];
+		fill(percent);
 	}
 
 	public Universe(String[] lines) {
@@ -47,6 +56,16 @@ public class Universe {
 				universe[r][c] = Liveness.get(code[r].substring(c, c + 1));
 
 				}
+		}
+	}
+
+	public void fill(float percent) {
+		Random rnd = new Random();
+
+		for (int r = 0; r < n; r++) {
+			for (int c = 0; c < n; c++) {
+				universe[r][c] = Liveness.get(rnd.nextFloat() < percent);
+			}
 		}
 	}
 
