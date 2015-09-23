@@ -3,8 +3,8 @@ package hu.bp.conway.modules;
 public class Walker implements Runnable {
 
 	public final Universe out;
-	private final Universe in;
-	private int row, col, n; 
+	public final Universe in;
+	public final int row, col, n; 
 
 	public Walker(Universe in, Universe out, int topLeftRow, int topLeftCol, int n) {
 		this.out = out;

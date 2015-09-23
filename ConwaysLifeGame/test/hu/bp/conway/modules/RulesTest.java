@@ -16,6 +16,8 @@ public class RulesTest {
 		assertEquals(4, Rules.liveNeighbours(u,1,1));
 		u = new Universe("* *,   ,* *");
 		assertEquals(4, Rules.liveNeighbours(u,1,1));
+		u = new Universe("     ,  *  ,  *  ,  *  ,     ");
+		assertEquals(3, Rules.liveNeighbours(u,2,1));
 	}
 
 	@Test

@@ -4,8 +4,8 @@ public class Rules {
 
 	public static int liveNeighbours(Universe u, int row, int col) {
 		int num = 0;
-		for (int r = row - 1; r < 3; r++) {
-			for (int c = row - 1; c < 3; c++) {
+		for (int r = row - 1; r < row + 2; r++) {
+			for (int c = col - 1; c < col + 2; c++) {
 				if ( r == row && c == col) {
 					continue;
 				}
