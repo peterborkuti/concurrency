@@ -18,7 +18,9 @@ public class Walker implements Runnable {
 	public void run() {
 		for (int r = row; r < row + n; r++) {
 			for (int c = col; c < col + n; c++) {
-				out.set(r, c, Rules.apply(in, r, c));
+				if ((r < in.n) && (c < in.n) && (r >= 0) && (c >= 0)) {
+					out.set(r, c, Rules.apply(in, r, c));
+				}
 			}
 		}
 	}

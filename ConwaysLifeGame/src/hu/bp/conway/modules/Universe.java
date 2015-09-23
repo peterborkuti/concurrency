@@ -1,5 +1,6 @@
 package hu.bp.conway.modules;
 
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -36,11 +37,25 @@ public class Universe {
 	}
 
 
+	public Universe(Universe in) {
+		this.n = in.n;
+		universe = new Liveness[n][n];
+		for (int r = 0; r < n; r++) {
+			for (int c = 0; c < n; c++) {
+				universe[r][c] = in.universe[r][c];
+			}
+		}
+	}
+
 	public void set(int r, int c, boolean live) {
 		universe[r][c] = Liveness.get(live);
 	}
 
 	public boolean isAlive(int r, int c) {
+		if (r < 0 || c < 0 || r >= n || c >= n) {
+			return false;
+		}
+
 		return universe[r][c] == Liveness.LIVE;
 	}
 
@@ -89,6 +104,31 @@ public class Universe {
 		}
 
 		return s.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + n;
+		result = prime * result + Arrays.hashCode(universe);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Universe other = (Universe) obj;
+		if (n != other.n)
+			return false;
+		if (!Arrays.deepEquals(universe, other.universe))
+			return false;
+		return true;
 	}
 
 }
