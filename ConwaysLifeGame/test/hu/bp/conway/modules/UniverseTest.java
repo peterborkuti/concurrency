@@ -18,7 +18,7 @@ public class UniverseTest {
 		String s[] = {"*--","-*-","--*"};
 		Universe u = new Universe(s);
 		assertEquals(3, u.n);
-		String q[] = u.toString().split(Universe.OUT_LINE_SEPARATOR);
+		String q[] = u.toStringArr();
 		assertEquals(s[0], q[0]);
 		assertEquals(s[1], q[1]);
 		assertEquals(s[2], q[2]);
@@ -115,7 +115,7 @@ public class UniverseTest {
 		Universe u = new Universe(3, false);
 		String s[] = {"*--","-*-","--*"};
 		u.fill(s);
-		String q[] = u.toString().split(Universe.OUT_LINE_SEPARATOR);
+		String q[] = u.toStringArr();
 		assertEquals(s[0], q[0]);
 		assertEquals(s[1], q[1]);
 		assertEquals(s[2], q[2]);

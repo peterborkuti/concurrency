@@ -6,8 +6,7 @@ import java.util.Random;
 
 public class Universe {
 
-	public static final String[] IN_LINE_SEPARATORS = {",", "\n"};
-	public static final String OUT_LINE_SEPARATOR = "\n";
+	public static final String[] LINE_SEPARATORS = {"\n", ","};
 	private final Liveness[][] universe;
 	public final int n;
 
@@ -34,9 +33,7 @@ public class Universe {
 	}
 
 	public Universe(String s) {
-		this(s.split((
-			s.contains(IN_LINE_SEPARATORS[0]) ?
-				IN_LINE_SEPARATORS[0]:IN_LINE_SEPARATORS[1])));
+		this(splitString(s));
 	}
 
 
@@ -71,7 +68,7 @@ public class Universe {
 	}
 
 	public void fill(String code) {
-		String[] codes = code.split(",");
+		String[] codes = splitString(",");
 		fill(codes);
 	}
 
@@ -103,18 +100,28 @@ public class Universe {
 		}
 	}
 
-	public String toString() {
+	public String toString(String separator) {
 		StringBuffer s = new StringBuffer();
+
 		for (int r = 0; r < n; r++) {
 			for (int c = 0; c < n; c++) {
 				s.append(universe[r][c].c);
 			}
 			if (r < n - 1) {
-				s.append(OUT_LINE_SEPARATOR);
+				s.append(separator);
 			}
 		}
 
 		return s.toString();
+	}
+
+	@Override
+	public String toString() {
+		return toString(LINE_SEPARATORS[0]);
+	}
+
+	public String[] toStringArr() {
+		return toString(LINE_SEPARATORS[0]).split(LINE_SEPARATORS[0]);
 	}
 
 	@Override
@@ -140,6 +147,17 @@ public class Universe {
 		if (!Arrays.deepEquals(universe, other.universe))
 			return false;
 		return true;
+	}
+
+	private static String[] splitString(String s) {
+		int i;
+		for (i = 0; i < LINE_SEPARATORS.length; i++) {
+			if (s.contains(LINE_SEPARATORS[i])) {
+				break;
+			}
+		}
+
+		return s.split(LINE_SEPARATORS[i]);
 	}
 
 }
