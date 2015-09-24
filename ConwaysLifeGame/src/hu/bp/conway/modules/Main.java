@@ -4,21 +4,15 @@ public class Main {
 
 	static long timer; 
 	public static void main(String[] args) {
-		Universe in = new Universe(100, 0.2f);
+		Universe in = new Universe(200, 0.2f);
 
 		Coordinator c;
 
-		for (int i = 0; i < 5; i++) {
-			c = new Coordinator(in, 1);
+		for (int i = 1; i < 32; i++) {
+			c = new Coordinator(in, i);
 			startTimer();
 			c.run();
 			stopTimer();
-	
-			c = new Coordinator(in, 2);
-			startTimer();
-			c.run();
-			stopTimer();
-
 		}
 		/*
 		c = new Coordinator(in, 4);
