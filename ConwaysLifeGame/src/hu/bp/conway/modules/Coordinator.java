@@ -8,47 +8,54 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 public class Coordinator implements Runnable {
-	private Universe in, out;
+	public Universe out;
+	private Universe in;
 	private ExecutorService executor;
 	private List<FutureTask<?>> f;
 	private int numOfThreads;
+	private int repeat;
 
-	public Coordinator(Universe in, int numOfThreads) {
+	public Coordinator(Universe in, int numOfThreads, int repeat) {
 		this.in = new Universe(in);
 		out = new Universe(in.n, false);
 		executor = Executors.newFixedThreadPool(numOfThreads);
 		f = new ArrayList<FutureTask<?>>();
 		this.numOfThreads = numOfThreads;
+		this.repeat = repeat;
+	}
+
+	public void oneStep() {
+		f.clear();
+
+		int len = in.n / numOfThreads;
+
+		for (int c = 0; c < in.n - 1; c += len) {
+			f.add(new FutureTask<Void>(
+				new Walker(in, out, 1, c, len), null));
+		}
+
+		for (FutureTask<?> ff: f) {
+			executor.execute(ff);
+		}
+
+		for (FutureTask<?> ff: f) {
+			try {
+				ff.get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void run() {
 
-		for (int i = 0; i < 10000; i ++) {
-			f.clear();
-			int len = in.n / numOfThreads;
-			for (int c = 0; c < in.n - 1; c += len) {
-				f.add(new FutureTask<Void>(
-					new Walker(in, out, 1, c, len), null));
-			}
+		for (int i = 0; i < repeat; i ++) {
 
-			for (FutureTask<?> ff: f) {
-				executor.execute(ff);
-			}
+			oneStep();
 
-			for (FutureTask<?> ff: f) {
-				try {
-					ff.get();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-			}
-
-			//System.out.println(i);
-			//print(out);
-	
 			if (in.equals(out)) {
 				break;
 			}

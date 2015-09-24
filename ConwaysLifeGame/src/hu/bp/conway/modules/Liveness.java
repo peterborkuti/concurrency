@@ -1,7 +1,7 @@
 package hu.bp.conway.modules;
 
 public enum Liveness {
-	DEAD(0, " "),
+	DEAD(0, "-"),
 	LIVE(1, "*");
 
 	public final int n;

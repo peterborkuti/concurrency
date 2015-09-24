@@ -15,10 +15,10 @@ public class UniverseTest {
 
 	@Test
 	public void testUniverseStringArray() {
-		String s[] = {"*  "," * ","  *"};
+		String s[] = {"*--","-*-","--*"};
 		Universe u = new Universe(s);
 		assertEquals(3, u.n);
-		String q[] = u.toString().split(Universe.LINE_SEPARATOR);
+		String q[] = u.toString().split(Universe.OUT_LINE_SEPARATOR);
 		assertEquals(s[0], q[0]);
 		assertEquals(s[1], q[1]);
 		assertEquals(s[2], q[2]);
@@ -26,7 +26,7 @@ public class UniverseTest {
 
 	@Test
 	public void testUniverseString() {
-		String s = "*  , * ,  *";
+		String s = "*--\n-*-\n--*";
 		Universe u = new Universe(s);
 		assertEquals(3, u.n);
 		String q = u.toString();
@@ -40,6 +40,51 @@ public class UniverseTest {
 		assertFalse(u.isAlive(1, 2));
 		u.set(1, 2, true);
 		assertTrue(u.isAlive(1, 2));
+	}
+
+	@Test
+	public void testSetUniverse() {
+		Universe test;
+		Universe in = new Universe(5, false);
+		Universe stamp = new Universe(5, true);
+		in.set(0, 0, stamp);
+		assertEquals(in, stamp);
+
+		in = new Universe(5, false);
+		stamp = Stamps.getVerticalBlinker();
+		in.set(0, 0, stamp);
+		assertEquals(in, stamp);
+
+		in = new Universe(3, false);
+		stamp = new Universe("**,**");
+		test = new Universe("** ,** ,   ");
+		in.set(0, 0, stamp);
+		assertEquals(in, test);
+
+		in = new Universe(3, false);
+		stamp = new Universe("**,**");
+		test = new Universe(" **, **,   ");
+		in.set(0, 1, stamp);
+		assertEquals(in, test);
+
+		in = new Universe(3, false);
+		stamp = new Universe("**,**");
+		test = new Universe("   , **, **");
+		in.set(1, 1, stamp);
+		assertEquals(in, test);
+
+		in = new Universe(3, false);
+		stamp = new Universe("**,**");
+		test = new Universe("   ,  *,  *");
+		in.set(1, 2, stamp);
+		assertEquals(in, test);
+
+		in = new Universe(4, false);
+		stamp = new Universe("**,**");
+		test = new Universe("**  ,**  ,  **,  **");
+		in.set(0, 0, stamp);
+		in.set(2, 2, stamp);
+		assertEquals(in, test);
 	}
 
 	@Test
@@ -59,7 +104,7 @@ public class UniverseTest {
 	@Test
 	public void testFillString() {
 		Universe u = new Universe(3, false);
-		String s = "*  , * ,  *";
+		String s = "*--\n-*-\n--*";
 		u.fill(s);
 		String q = u.toString();
 		assertEquals(s, q);
@@ -68,9 +113,9 @@ public class UniverseTest {
 	@Test
 	public void testFillStringArray() {
 		Universe u = new Universe(3, false);
-		String s[] = {"*  "," * ","  *"};
+		String s[] = {"*--","-*-","--*"};
 		u.fill(s);
-		String q[] = u.toString().split(Universe.LINE_SEPARATOR);
+		String q[] = u.toString().split(Universe.OUT_LINE_SEPARATOR);
 		assertEquals(s[0], q[0]);
 		assertEquals(s[1], q[1]);
 		assertEquals(s[2], q[2]);

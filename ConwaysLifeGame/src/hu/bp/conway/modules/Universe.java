@@ -6,7 +6,8 @@ import java.util.Random;
 
 public class Universe {
 
-	public static final String LINE_SEPARATOR = ",";
+	public static final String[] IN_LINE_SEPARATORS = {",", "\n"};
+	public static final String OUT_LINE_SEPARATOR = "\n";
 	private final Liveness[][] universe;
 	public final int n;
 
@@ -33,7 +34,9 @@ public class Universe {
 	}
 
 	public Universe(String s) {
-		this(s.split(LINE_SEPARATOR));
+		this(s.split((
+			s.contains(IN_LINE_SEPARATORS[0]) ?
+				IN_LINE_SEPARATORS[0]:IN_LINE_SEPARATORS[1])));
 	}
 
 
@@ -49,6 +52,14 @@ public class Universe {
 
 	public void set(int r, int c, boolean live) {
 		universe[r][c] = Liveness.get(live);
+	}
+
+	public void set(int row, int col, Universe u) {
+		for (int r = row; r < Math.min(n, row + u.n); r++) {
+			for (int c = col; c < Math.min(n, col + u.n); c++) {
+				set(r, c, u.isAlive(r - row, c - col));
+			}
+		}
 	}
 
 	public boolean isAlive(int r, int c) {
@@ -99,7 +110,7 @@ public class Universe {
 				s.append(universe[r][c].c);
 			}
 			if (r < n - 1) {
-				s.append(LINE_SEPARATOR);
+				s.append(OUT_LINE_SEPARATOR);
 			}
 		}
 

@@ -9,7 +9,7 @@ public class Main {
 		Coordinator c;
 
 		for (int i = 1; i < 32; i++) {
-			c = new Coordinator(in, i);
+			c = new Coordinator(in, i, 1);
 			startTimer();
 			c.run();
 			stopTimer();
