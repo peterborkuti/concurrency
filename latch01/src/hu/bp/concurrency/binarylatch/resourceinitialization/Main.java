@@ -46,7 +46,7 @@ class GateOpener implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println(Thread.currentThread().getName() + " GateOpener - searching for the key.");
+		System.out.println(Thread.currentThread().getName() + " GateOpener - is woken up.");
 
 		Util.sleep(1000, 1000);
 
@@ -124,9 +124,11 @@ public class Main {
 
 		Passenger[] passengers = {
 				new Passenger(binaryLatch, "Reni"),
-				new Passenger(binaryLatch, "Vili"),
+				new Passenger(binaryLatch, "Ádám"),
 				new Passenger(binaryLatch, "Dani"),
-				new Passenger(binaryLatch, "Pisti")};
+				new Passenger(binaryLatch, "Norbi"),
+				new Passenger(binaryLatch, "Pisti"),
+				new Passenger(binaryLatch, "Vili")};
 
 		List<FutureTask<?>> f = new ArrayList<FutureTask<?>>();
 
@@ -146,6 +148,9 @@ public class Main {
 		for (FutureTask<?> ff: f) {
 			ff.get();
 		}
+
+		System.out.println("Shutdown");
+		executor.shutdown();
 
 		System.out.println("Done");
 	}
