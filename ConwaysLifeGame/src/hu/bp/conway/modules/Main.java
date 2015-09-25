@@ -4,7 +4,7 @@ public class Main {
 
 	static long timer; 
 	public static void main(String[] args) {
-		Universe in = new Universe(200, 0.2f);
+		Universe in = new Universe(10, 0.2f);
 
 		Coordinator c;
 
