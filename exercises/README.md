@@ -6,10 +6,14 @@ Extend Thread
 Implement Runnable
   runnable must write "Start", wait for a second and write "Done".
 
-Implement Runnable and use FutureTask and executor
+Implement Runnable and use executor
   runnable must write "Start", wait for a second and write "Done".
+  ExecutorService executor = Executors.newFixedThreadPool(8);
+  ...
+  executor.execute(sleeper);
+Implement runnable, run 10 pieces of them with executor
+
   
-  Future<?> f = new FutureTask<Void>(runnable, null)
 
 Gardener
   seeds, gardener. Seeds must be watered to grow. After they reach a certain size, harvested.
