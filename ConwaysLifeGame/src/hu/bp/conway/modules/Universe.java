@@ -68,7 +68,7 @@ public class Universe {
 	}
 
 	public void fill(String code) {
-		String[] codes = splitString(",");
+		String[] codes = splitString(code);
 		fill(codes);
 	}
 

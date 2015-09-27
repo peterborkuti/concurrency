@@ -104,9 +104,9 @@ public class UniverseTest {
 	@Test
 	public void testFillString() {
 		Universe u = new Universe(3, false);
-		String s = "*--\n-*-\n--*";
+		String s = "*--,-*-,--*";
 		u.fill(s);
-		String q = u.toString();
+		String q = u.toString(",");
 		assertEquals(s, q);
 	}
 

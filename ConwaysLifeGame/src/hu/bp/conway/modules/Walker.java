@@ -4,20 +4,21 @@ public class Walker implements Runnable {
 
 	public final Universe out;
 	public final Universe in;
-	public final int row, col, n; 
+	public final int row, col, rows, cols; 
 
-	public Walker(Universe in, Universe out, int topLeftRow, int topLeftCol, int n) {
+	public Walker(Universe in, Universe out, int topLeftRow, int topLeftCol, int rows, int cols) {
 		this.out = out;
 		this.in = in;
 		row = topLeftRow;
 		col = topLeftCol;
-		this.n = n;
+		this.rows = rows;
+		this.cols = cols;
 	}
 
 	@Override
 	public void run() {
-		for (int r = row; r < row + n; r++) {
-			for (int c = col; c < col + n; c++) {
+		for (int r = row; r < row + rows; r++) {
+			for (int c = col; c < col + cols; c++) {
 				if ((r < in.n) && (c < in.n) && (r >= 0) && (c >= 0)) {
 					out.set(r, c, Rules.apply(in, r, c));
 				}

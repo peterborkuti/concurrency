@@ -9,9 +9,17 @@ public class RulesTest {
 	@Test
 	public void testLiveNeighbours() {
 		Universe u = new Universe(3, false);
+
+		assertEquals(0, Rules.liveNeighbours(u,0,0));
+		assertEquals(0, Rules.liveNeighbours(u,2,2));
 		assertEquals(0, Rules.liveNeighbours(u,1,1));
+
 		u.fill(true);
 		assertEquals(8, Rules.liveNeighbours(u,1,1));
+		assertEquals(3, Rules.liveNeighbours(u,0,0));
+		assertEquals(3, Rules.liveNeighbours(u,2,2));
+		assertEquals(5, Rules.liveNeighbours(u,1,0));
+
 		u = new Universe(" * ,* *, * ");
 		assertEquals(4, Rules.liveNeighbours(u,1,1));
 		u = new Universe("* *,   ,* *");

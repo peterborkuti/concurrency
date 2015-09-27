@@ -1,4 +1,4 @@
-package common;
+package hu.bp.common;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -97,22 +97,22 @@ public class Util {
 	 * 
 	 * @see {@link https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html} ExecutorService
 	 * 
-	 * @param pool
+	 * @param executor
 	 */
-	public static void shutdownAndAwaitTermination(ExecutorService pool) {
-		pool.shutdown(); // Disable new tasks from being submitted
-		pool.shutdownNow(); // Cancel currently executing tasks
+	public static void shutdownAndAwaitTermination(ExecutorService executor) {
+		executor.shutdown(); // Disable new tasks from being submitted
+		executor.shutdownNow(); // Cancel currently executing tasks
 		try {
 			// Wait a while for existing tasks to terminate
-			if (!pool.awaitTermination(2, TimeUnit.SECONDS)) {
-				pool.shutdownNow(); // Cancel currently executing tasks
+			if (!executor.awaitTermination(2, TimeUnit.SECONDS)) {
+				executor.shutdownNow(); // Cancel currently executing tasks
 				// Wait a while for tasks to respond to being cancelled
-				if (!pool.awaitTermination(2, TimeUnit.SECONDS))
+				if (!executor.awaitTermination(2, TimeUnit.SECONDS))
 					System.err.println("Pool did not terminate");
 			}
 		} catch (InterruptedException ie) {
 			// (Re-)Cancel if current thread also interrupted
-			pool.shutdownNow();
+			executor.shutdownNow();
 			// Preserve interrupt status
 			Thread.currentThread().interrupt();
 		}

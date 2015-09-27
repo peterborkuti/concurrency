@@ -1,18 +1,24 @@
 package hu.bp.conway.modules;
 
+import hu.bp.common.Util;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Main {
 
 	static long timer; 
 	public static void main(String[] args) {
-		Universe in = new Universe(10, 0.2f);
+		ExecutorService executor = Executors.newFixedThreadPool(2);
+		Universe in = new Universe(25, 0.4f);
 
 		Coordinator c;
 
-		for (int i = 1; i < 32; i++) {
-			c = new Coordinator(in, i, 1);
-			startTimer();
+		for (int i = 1; i < 3; i++) {
+			c = new Coordinator(in, executor, i, 1000);
+			long timer = Util.startTimer();
 			c.run();
-			stopTimer();
+			Util.stopTimer(timer);
 		}
 		/*
 		c = new Coordinator(in, 4);
@@ -20,15 +26,8 @@ public class Main {
 		c.run();
 		stopTimer();
 		*/
+		
+		Util.shutdownAndAwaitTermination(executor);
 	}
-
-	public static void startTimer() {
-		timer = System.nanoTime();
-	}
-
-	public static void stopTimer() {
-		System.out.println(System.nanoTime() - timer);
-	}
-	
 
 }
