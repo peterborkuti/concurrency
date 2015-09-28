@@ -1,8 +1,10 @@
-= Concurrency Exercises
+Concurrency Exercises
+=====================
 
 Author: Péter Borkuti
 
-== Creating threads
+Creating threads
+----------------
 
 1. Extend Thread
    thread must write "Start", wait for a second and write "Done".
@@ -22,7 +24,8 @@ Author: Péter Borkuti
 
 4. Implement runnable, run 10 pieces of them with executor
 
-== Let's forget extending Thread!
+Let's forget extending Thread!
+------------------------------------
 
 1. Thinker01
 Create Thinker01 which chooses a random number after a random amount of thinking
@@ -55,13 +58,15 @@ and writes this number to the output! Use executor.
   ...
   ```
 
-== Let's use latch!
+Let's use latch!
+----------------
 
 1. Create two threads. The second should wait the first to finish
 2. Create N threads and start them. Create a thread Q which should wait for the other N to finish.
 3. Create N threads. They should wait for each other to start processing.
 
-== Other exercises
+Other exercises
+---------------
 
 1. Gardener
   seeds, gardener. Seeds must be watered to grow. After they reach a certain size, harvested.
