@@ -7,7 +7,7 @@ import common.Sleeper;
 import common.Util;
 
 
-public class Main {
+public class Main01 {
 
 	public static void main(String[] args) {
 		ExecutorService executor = Executors.newFixedThreadPool(8);
