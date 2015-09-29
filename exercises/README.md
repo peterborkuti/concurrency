@@ -57,6 +57,10 @@ and writes this number to the output! Use executor.
   List<Future<Integer>> futures = executor.invokeAll(callables);
   ...
   ```
+6. Adder
+  Create a callable class Adder wich sums the number in a list
+  Create a concurrent program which sums the numbers in a list
+  Hint: Divide et Impera! (Without recursion)
 
 Let's use latch!
 ----------------

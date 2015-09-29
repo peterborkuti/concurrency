@@ -84,9 +84,11 @@ public class Util {
 	 * 
 	 */
 	public static void stopTimer(long timer) {
-		log("Timer:" + (System.nanoTime() - timer));
+		long time = System.nanoTime() - timer;
+		long seconds = TimeUnit.NANOSECONDS.toSeconds(time);
+		long nanos = time - TimeUnit.SECONDS.toNanos(seconds);
+		log("Timer:" + seconds + "." + nanos);
 	}
-	
 
 
 	/**
