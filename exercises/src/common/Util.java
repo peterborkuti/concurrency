@@ -7,8 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Util {
-	public static final SimpleDateFormat format = new SimpleDateFormat(
-			"HH:mm:ss.SSS");
+	public static final SimpleDateFormat format =
+		new SimpleDateFormat("HH:mm:ss.SSS");
 
 	/**
 	 * Gets the current thread to sleep for at least *fix* milliseconds
@@ -24,7 +24,9 @@ public class Util {
 	public static void sleep(int fix, int rand) {
 		Random r = new Random();
 		try {
-			Thread.sleep(fix + r.nextInt(rand));
+			long sleep = fix + (rand <= 0 ? 0 : r.nextInt(rand));
+
+			Thread.sleep(sleep);
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
@@ -41,21 +43,42 @@ public class Util {
 	}
 
 	/**
-	 * Writes the strings in sArr and sleeps between prints
+	 * Writes the prefix and strings in sArr and sleeps between prints
+	 * @param prefix
+	 * @param sArr
+	 * @param fix
+	 * @param rand
+	 */
+	public static void writeAndSleep(String prefix, String[] sArr, int fix, int rand) {
+		if (prefix == null) {
+			prefix = "";
+		}
+
+		if (sArr == null || sArr.length == 0) {
+			sArr = new String[1];
+		}
+
+		String separator = ("".equals(prefix)) ? "" : " - ";
+
+		for (int i = 0; i < sArr.length; i++) {
+			log(prefix + separator + sArr[i]);
+			sleep(fix, rand);
+
+			if (Thread.currentThread().isInterrupted()) {
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Writes the prefix and strings in sArr and sleeps between prints
+	 * @param prefix
 	 * @param sArr
 	 * @param fix
 	 * @param rand
 	 */
 	public static void writeAndSleep(String[] sArr, int fix, int rand) {
-		log(sArr[0]);
-
-		for (int i = 1; i < sArr.length; i++) {
-			sleep(fix, rand);
-			if (Thread.currentThread().isInterrupted()) {
-				return;
-			}
-			log(sArr[i]);
-		}
+		writeAndSleep("", sArr, fix, rand);
 	}
 
 	/**
@@ -84,33 +107,51 @@ public class Util {
 	 * 
 	 */
 	public static void stopTimer(long timer) {
-		long time = System.nanoTime() - timer;
-		long seconds = TimeUnit.NANOSECONDS.toSeconds(time);
-		long nanos = time - TimeUnit.SECONDS.toNanos(seconds);
-		log("Timer:" + seconds + "." + nanos);
+		log("Timer:" + (System.nanoTime() - timer));
 	}
-
 
 	/**
 	 * Effectively close the executor so no new runnable is accepted and
-	 * tries to terminate all the running thread.
+	 * tries to terminate all the running thread for 2 seconds.
+	 * 
 	 * Threads must catch InterruptedException and check the interrupted
 	 * flag and stop if it's thread was interrupted.
 	 * 
 	 * @see {@link https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html} ExecutorService
 	 * 
 	 * @param pool
+	 * @param waitSeconds
 	 */
 	public static void shutdownAndAwaitTermination(ExecutorService pool) {
+		shutdownAndAwaitTermination(pool, 2);
+	}
+
+	/**
+	 * Effectively close the executor so no new runnable is accepted and
+	 * tries to terminate all the running thread for waitSeconds seconds.
+	 * 
+	 * Threads must catch InterruptedException and check the interrupted
+	 * flag and stop if it's thread was interrupted.
+	 * 
+	 * @see {@link https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html} ExecutorService
+	 * 
+	 * @param pool
+	 * @param waitSeconds
+	 */
+	public static void shutdownAndAwaitTermination(ExecutorService pool, long waitSeconds) {
 		pool.shutdown(); // Disable new tasks from being submitted
+
 		pool.shutdownNow(); // Cancel currently executing tasks
+
 		try {
 			// Wait a while for existing tasks to terminate
-			if (!pool.awaitTermination(2, TimeUnit.SECONDS)) {
+			if (!pool.awaitTermination(waitSeconds, TimeUnit.SECONDS)) {
 				pool.shutdownNow(); // Cancel currently executing tasks
+
 				// Wait a while for tasks to respond to being cancelled
-				if (!pool.awaitTermination(2, TimeUnit.SECONDS))
+				if (!pool.awaitTermination(waitSeconds, TimeUnit.SECONDS)) {
 					System.err.println("Pool did not terminate");
+				}
 			}
 		} catch (InterruptedException ie) {
 			// (Re-)Cancel if current thread also interrupted
