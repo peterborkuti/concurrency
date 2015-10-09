@@ -4,7 +4,7 @@ import common.Util;
 
 public class Sleeper implements Runnable {
 
-	private final static String[] messages = {
+	public final static String[] messages = {
 		"Let's wake up!",
 		"Let's go to bed",
 		"Sleeping"
