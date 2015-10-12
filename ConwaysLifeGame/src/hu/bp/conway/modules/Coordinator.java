@@ -18,7 +18,7 @@ public class Coordinator implements Runnable {
 
 	public Coordinator(Universe in, ExecutorService executor, int numOfThreads, int repeat) {
 		this.in = new Universe(in);
-		out = new Universe(in.n, false);
+		out = new Universe(in);
 		f = new ArrayList<FutureTask<?>>();
 		this.numOfThreads = numOfThreads;
 		this.repeat = repeat;
