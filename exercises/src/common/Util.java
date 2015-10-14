@@ -139,6 +139,7 @@ public class Util {
 	 * @param waitSeconds
 	 */
 	public static void shutdownAndAwaitTermination(ExecutorService pool, long waitSeconds) {
+		log("shutdown starts");
 		pool.shutdown(); // Disable new tasks from being submitted
 
 		pool.shutdownNow(); // Cancel currently executing tasks
@@ -159,5 +160,6 @@ public class Util {
 			// Preserve interrupt status
 			Thread.currentThread().interrupt();
 		}
+		log("shutdown ended");
 	}
 }
