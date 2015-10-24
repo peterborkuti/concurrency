@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import common.NamedSleeper;
+import common.NamedSleeperWithLatch;
 import common.Util;
 
 public class WaitForFinish {
@@ -28,7 +28,7 @@ public class WaitForFinish {
 		List<Future<Object>> futures = new ArrayList<Future<Object>>();
 
 		for (int i = 0; i < N; i++) {
-			executor.submit(new NamedSleeper("Sleeper" + i, latch), null);
+			executor.submit(new NamedSleeperWithLatch("Sleeper" + i, latch), null);
 		}
 
 		Future<Object> futureOfWaiter = executor.submit(new Waiter(latch), null);

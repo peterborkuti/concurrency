@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import common.NamedSleeper;
+import common.NamedSleeperWithLatch;
 import common.Util;
 
 public class TwoThreads {
@@ -25,7 +25,7 @@ public class TwoThreads {
 
 		List<Future<Object>> futures = new ArrayList<Future<Object>>();
 
-		executor.submit(new NamedSleeper("Péter", latch), null);
+		executor.submit(new NamedSleeperWithLatch("Pï¿½ter", latch), null);
 		Future<Object> futureOfWaiter = executor.submit(new Waiter(latch), null);
 
 		futureOfWaiter.get();

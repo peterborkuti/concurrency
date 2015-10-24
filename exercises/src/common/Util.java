@@ -18,15 +18,36 @@ public class Util {
 	 * and sets interrupt flag again to true to give a chance to the caller
 	 * functions to check it and stop
 	 * 
-	 * @param fix milliseconds to sleep
-	 * @param rand added random milliseconds between 0 and rand
+	 * @param l milliseconds to sleep
+	 * @param m added random milliseconds between 0 and rand
+	 * 
 	 */
-	public static void sleep(int fix, int rand) {
+	@Deprecated
+	public static void sleep(int l, int m) {
 		Random r = new Random();
 		try {
-			long sleep = fix + (rand <= 0 ? 0 : r.nextInt(rand));
+			long sleep = l + (m <= 0 ? 0 : r.nextInt(m));
 
 			Thread.sleep(sleep);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+	}
+
+	/**
+	 * 
+	 * @param fix
+	 * @param rand
+	 * @param unit
+	 */
+	public static void sleep(int fix, int rand, TimeUnit unit) {
+		Random r = new Random();
+
+		try {
+			unit.sleep(fix);
+			if (rand > 0) {
+				unit.sleep(r.nextInt(rand));
+			}
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
@@ -162,4 +183,5 @@ public class Util {
 		}
 		log("shutdown ended");
 	}
+
 }
