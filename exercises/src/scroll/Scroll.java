@@ -1,20 +1,39 @@
 package scroll;
 
+/**
+ * Scrolls a text in a given length. If length is greater than
+ * the text's length, it fills the remainder characters with
+ * a filler.
+ * @author Peter Borkuti
+ *
+ */
 class Scroll {
 	private final StringBuilder buffer;
 
 	public final int LENGTH;
 	public final char[] FILLER = new char[1];
 
-	public Scroll(int length, char filler, String s) {
+	/**
+	 * Creates a Scroll object
+	 * 
+	 * @param length The length of the scrolling text + the filler characters
+	 * @param filler the character which will be added to the text to be the
+	 *  given length 
+	 * @param text this text will be scrolled
+	 */
+	public Scroll(int length, char filler, String text) {
 		LENGTH = length;
 		FILLER[0] = filler;
 		buffer = new StringBuilder(LENGTH);
 		String manyFiller = new String(new char[LENGTH]).replace('\0', filler);
-		s = s + manyFiller;
-		buffer.append(s.substring(0, LENGTH));
+		text = text + manyFiller;
+		buffer.append(text.substring(0, LENGTH));
 	}
 
+	/**
+	 * Scrolls the text to the right with one character
+	 * @return the scrolled text
+	 */
 	public String scrollToRight() {
 		buffer.insert(0, buffer.substring(LENGTH - 1));
 		buffer.setLength(LENGTH);
