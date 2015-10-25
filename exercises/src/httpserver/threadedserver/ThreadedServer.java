@@ -48,8 +48,8 @@ class Messenger {
 	public Messenger(int THREADS, int PORT) throws IOException {
 		super();
 		this.isRunning = true;
-		this.executor = Executors.newFixedThreadPool(THREADS);;
-		this.serverSocket = new ServerSocket(PORT);;
+		this.executor = Executors.newFixedThreadPool(THREADS);
+		this.serverSocket = new ServerSocket(PORT);
 	}
 
 	private boolean isRunning;
@@ -69,8 +69,10 @@ class ShutdownHook extends Thread {
 	public void run() {
 		messenger.setRunning(false);
 		Util.shutdownAndAwaitTermination(messenger.getExecutor());
+		Util.log("executor terminated");
 		try {
 			messenger.getServerSocket().close();
+			Util.log("socket closed");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -97,9 +99,11 @@ public class ThreadedServer {
 			Util.log("Waiting for client");
 			Socket clientSocket = messenger.getServerSocket().accept();
 			Util.log("client connection is accepted");
+			Util.log("socket remote port:" + clientSocket.getPort() + ", local port:" + clientSocket.getLocalPort());
 			messenger.getExecutor().submit(new RequestHandler(clientSocket));
 		}
 
+		Util.log("App exits");
 	}
 
 }

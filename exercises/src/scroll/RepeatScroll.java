@@ -29,16 +29,23 @@ public class RepeatScroll {
 	class Scroller implements Runnable {
 		private final Scroll scroll;
 		private final int x,y;
+		private boolean right = true;
 
-		public Scroller(int x, int y, int length, char filler, String text) {
+		public Scroller(int x, int y, boolean right, int length, char filler, String text) {
 			scroll = new Scroll(length, filler, text);
 			this.x = x;
 			this.y = y;
+			this.right = right;
 		}
 
 		@Override
 		public void run() {
-			tGraphics.putString(x, y, scroll.scrollToRight());
+			if (right) {
+				tGraphics.putString(x, y, scroll.scrollToRight());
+			}
+			else {
+				tGraphics.putString(x, y, scroll.scrollToLeft());
+			}
 			try {
 				screen.refresh(Screen.RefreshType.DELTA);
 			} catch (IOException e) {
@@ -69,7 +76,8 @@ public class RepeatScroll {
 			int y = 2 * i + 10;
 			int x = 10;
 			int delay = 100 + r.nextInt(5) * 100;
-			Scroller scroller = app.new Scroller(x, y, 50, '*', messages[i]);
+			boolean right = r.nextBoolean();
+			Scroller scroller = app.new Scroller(x, y, right, 50, '*', messages[i]);
 			executor.scheduleAtFixedRate(scroller, 1000, delay, TimeUnit.MILLISECONDS);
 		}
 

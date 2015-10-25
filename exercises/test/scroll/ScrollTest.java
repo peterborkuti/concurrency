@@ -29,4 +29,13 @@ public class ScrollTest {
 		assertEquals(scroll.scrollToRight(), "cab");
 	}
 
+	@Test
+	public void testScrollToLeft() {
+		Scroll scroll = new Scroll(3, 'c', "ab");
+
+		assertEquals(scroll.scrollToLeft(), "bca");
+		assertEquals(scroll.scrollToLeft(), "cab");
+		assertEquals(scroll.scrollToLeft(), "abc");
+		assertEquals(scroll.scrollToLeft(), "bca");
+	}
 }
