@@ -21,8 +21,6 @@ public class ServerUtil {
 
 		out.println("Hello World");
 
-		clientSocket.
-
 		clientSocket.close();
 	}
 
