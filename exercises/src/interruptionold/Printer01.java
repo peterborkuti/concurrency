@@ -1,4 +1,4 @@
-package interruption;
+package interruptionold;
 
 public class Printer01 implements Runnable {
 
